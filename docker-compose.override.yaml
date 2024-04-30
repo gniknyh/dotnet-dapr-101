@@ -1,0 +1,34 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  redis:
+    ports:
+      - "5379:6379"
+
+  rabbitmq:
+    ports:
+      - "5672:5672"
+
+  basketservice:
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - 7002:80
+    depends_on:
+      - redis
+
+  basketservice-dapr:
+    depends_on:
+      - basketservice
+    command: ["./daprd",
+      "-app-id", "basketservice",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/eshop-config.yaml"
+      ]
+
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"

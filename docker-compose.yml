@@ -1,0 +1,29 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "5379:6379"
+
+  rabbitmq:
+      image: rabbitmq:3-management-alpine
+
+
+  basketservice:
+    image: mydaprbasket
+    build:
+      context: .
+      dockerfile: src/mydapr.Basket/Dockerfile
+    ports:
+      - 7002:80
+    depends_on:
+      - redis
+
+  basketservice-dapr:
+    image: "daprio/daprd:1.9.4"
+    network_mode: "service:basketservice"
+    depends_on:
+      - basketservice
