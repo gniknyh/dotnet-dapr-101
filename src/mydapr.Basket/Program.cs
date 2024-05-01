@@ -1,11 +1,13 @@
 
 using Link.Mydapr.Service.Basket.Infrastucture;
+using Link.Mydapr.Service.Basket.IntegrationEvent;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers().AddDapr();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddScoped<IntegrationEventHandler>();
 
 var app = builder.Build();
 

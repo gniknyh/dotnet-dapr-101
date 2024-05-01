@@ -37,6 +37,11 @@ namespace Link.Mydapr.Service.Basket.Infrastucture
             return await GetAsync(customerBasket.CustomerId);
         }
 
+        public async Task RemoveAsync(int customerId)
+        {
+            await _daprClient.DeleteStateAsync(_storeName, customerId.ToString());
+        }
+
         private readonly ILogger _logger;
         private readonly DaprClient _daprClient;
 

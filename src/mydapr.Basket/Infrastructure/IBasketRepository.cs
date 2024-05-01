@@ -8,5 +8,7 @@ namespace Link.Mydapr.Service.Basket.Infrastucture
 
         public Task<CustomerBasket> UpdateAsync(CustomerBasket customerBasket);
 
+        public Task RemoveAsync(int customerId);
+
     }
 }
