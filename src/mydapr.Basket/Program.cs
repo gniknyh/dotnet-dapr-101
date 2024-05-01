@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers().AddDapr();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
-builder.Services.AddScoped<IntegrationEventHandler>();
+builder.Services.AddScoped<OrderStatusChangedToSubmittedIntegrationEventHandler>();
 
 var app = builder.Build();
 
@@ -22,12 +22,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
-
+app.UseCloudEvents();
+app.MapControllers();
+app.MapSubscribeHandler();
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -17,13 +17,27 @@ services:
     build:
       context: .
       dockerfile: src/mydapr.Basket/Dockerfile
-    ports:
-      - 7002:80
     depends_on:
       - redis
+      - rabbitmq
 
   basketservice-dapr:
     image: "daprio/daprd:1.9.4"
     network_mode: "service:basketservice"
     depends_on:
       - basketservice
+
+  orderservice:
+    image: mydaprorder
+    build:
+      context: .
+      dockerfile: src/mydapr.Order/Dockerfile
+    depends_on:
+      - basketservice
+      - rabbitmq
+
+  orderservice-dapr:
+    image: "daprio/daprd:1.9.4"
+    network_mode: "service:orderservice"
+    depends_on:
+      - orderservice

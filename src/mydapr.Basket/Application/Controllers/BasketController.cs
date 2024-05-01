@@ -23,7 +23,7 @@ namespace Link.Mydapr.Service.Basket.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket([FromBody] CustomerBasket customerBasket)
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket( CustomerBasket customerBasket)
         {
             var basket = await _basketRepository.UpdateAsync(customerBasket);
             return Ok(basket);

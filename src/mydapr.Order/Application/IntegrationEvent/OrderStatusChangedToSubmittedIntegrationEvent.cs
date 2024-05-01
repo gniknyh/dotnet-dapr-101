@@ -1,4 +1,4 @@
-namespace Link.Mydapr.Service.Basket.IntegrationEvent
+namespace Link.Mydapr.Service.Order.IntegrationEvent
 {
     public record OrderStatusChangedToSubmittedIntegrationEvent
     (
