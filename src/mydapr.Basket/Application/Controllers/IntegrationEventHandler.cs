@@ -1,5 +1,5 @@
 using Dapr;
-using Link.Mydapr.Service.Basket.IntegrationEvent;
+using Link.Mydapr.Service.Basket.Events;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Link.Mydapr.Service.Basket.Controller

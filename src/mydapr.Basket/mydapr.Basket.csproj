@@ -11,4 +11,8 @@
     <PackageReference Include="Dapr.Client" Version="1.13.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DaprBuildingBlock\DaprBuildingBlock.csproj" />
+  </ItemGroup>
+
 </Project>

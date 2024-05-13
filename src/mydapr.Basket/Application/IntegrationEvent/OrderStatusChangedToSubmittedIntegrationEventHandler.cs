@@ -1,6 +1,6 @@
 using Link.Mydapr.Service.Basket.Infrastucture;
 
-namespace Link.Mydapr.Service.Basket.IntegrationEvent
+namespace Link.Mydapr.Service.Basket.Events
 {
     public class OrderStatusChangedToSubmittedIntegrationEventHandler
     {

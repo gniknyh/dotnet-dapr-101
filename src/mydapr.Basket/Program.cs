@@ -1,6 +1,7 @@
 
 using Link.Mydapr.Service.Basket.Infrastucture;
-using Link.Mydapr.Service.Basket.IntegrationEvent;
+using Link.Mydapr.Service.Basket.Events;
+using Link.Mydapr.Util.Pubsub;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddDapr();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<OrderStatusChangedToSubmittedIntegrationEventHandler>();
+builder.Services.AddScoped<IEventBus, DaprEventBus>();
 
 var app = builder.Build();
 

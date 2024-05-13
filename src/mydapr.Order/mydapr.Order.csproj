@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapr.Actors" Version="1.13.1" />
     <PackageReference Include="Dapr.AspNetCore" Version="1.13.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaprBuildingBlock\DaprBuildingBlock.csproj" />
   </ItemGroup>
 
 </Project>
