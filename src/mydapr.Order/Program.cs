@@ -15,6 +15,8 @@ builder.Services.AddDbContext<OrderingDbContext>(option =>
 builder.Services.AddScoped<IEventBus, DaprEventBus>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -23,6 +25,8 @@ app.UseStaticFiles();
 app.UseCloudEvents();
 app.MapControllers();
 app.MapSubscribeHandler();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.Run();

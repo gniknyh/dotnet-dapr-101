@@ -11,6 +11,7 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<OrderStatusChangedToSubmittedIntegrationEventHandler>();
 builder.Services.AddScoped<IEventBus, DaprEventBus>();
 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +28,8 @@ app.UseStaticFiles();
 app.UseCloudEvents();
 app.MapControllers();
 app.MapSubscribeHandler();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.Run();

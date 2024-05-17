@@ -41,7 +41,9 @@ namespace Link.Mydapr.Service.Basket.Controller
             await _eventBus.PublishEvent(checkEvent);
             return Ok();
         }
+
         private IBasketRepository _basketRepository;
+        
         private IEventBus _eventBus;
 
     }

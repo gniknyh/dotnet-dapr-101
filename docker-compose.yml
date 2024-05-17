@@ -11,6 +11,26 @@ services:
   rabbitmq:
       image: rabbitmq:3-management-alpine
 
+  postgres:
+    # Official Postgres image from DockerHub (we use the last version)
+    image: 'postgres:latest'
+    volumes:
+      - database:/data/db
+
+
+  identity:
+    image: mydapridentity
+    build:
+      context: .
+      dockerfile: src/mydapr.Identity/Dockerfile
+    depends_on:
+      - postgres
+
+  identity-dapr:
+    image: "daprio/daprd:1.9.4"
+    network_mode: "service:identity"
+    depends_on:
+      - identity
 
   basketservice:
     image: mydaprbasket
@@ -41,3 +61,6 @@ services:
     network_mode: "service:orderservice"
     depends_on:
       - orderservice
+
+volumes:
+  database:
