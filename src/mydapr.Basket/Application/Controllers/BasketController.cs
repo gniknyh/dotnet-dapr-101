@@ -2,11 +2,13 @@ using Link.Mydapr.Service.Basket.Events;
 using Link.Mydapr.Service.Basket.Infrastucture;
 using Link.Mydapr.Service.Basket.Model;
 using Link.Mydapr.Util.Pubsub;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Link.Mydapr.Service.Basket.Controller
 {
     [Route("api/v1/[controller]")]
+    [Authorize(Policy = "ApiScope")]
     [ApiController]
     public class BasketController  : ControllerBase
     {

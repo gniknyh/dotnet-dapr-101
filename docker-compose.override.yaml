@@ -25,8 +25,12 @@ services:
   identity:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - IdentityUrl=http://identity
+      - BasketUrl=http://basketservice
     ports:
       - 7004:80
+    domainname: identity.test
+
 
   identity-dapr:
     command: ["./daprd",
@@ -43,6 +47,7 @@ services:
   basketservice:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - IdentityUrl=http://identity
     ports:
       - 7002:80
     depends_on:

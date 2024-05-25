@@ -2,6 +2,7 @@
 using Link.Mydapr.Service.Basket.Infrastucture;
 using Link.Mydapr.Service.Basket.Events;
 using Link.Mydapr.Util.Pubsub;
+using Link.Mydapr.Service.Basket;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,9 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<OrderStatusChangedToSubmittedIntegrationEventHandler>();
 builder.Services.AddScoped<IEventBus, DaprEventBus>();
 
-builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+// builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+builder.AddCustomAuthentication();
+builder.AddCustomAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

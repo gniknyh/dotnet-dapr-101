@@ -1,23 +1,32 @@
+using Balosar.Server;
 using Link.Mydapr.Service.Identity;
 using Link.Mydapr.Service.Identity.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
+// builder.Services.AddEndpointsApiExplorer();
 builder.AddCustomConfiguration();
 
-// builder.Services.AddDbContext<IdentityDataContext>(options => options.UseNpgsql(connectionString));
-
-// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
-// var connectionString = builder.Configuration.GetConnectionString("IdentityDataContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityDataContextConnection' not found.");
-
-// builder.Services.AddDbContext<IdentityDataContext>(options => options.UseNpgsql(connectionString));
-// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
+builder.Services.AddAuthorization();
 builder.AddCustomDatabase();
 builder.AddCustomIdentity();
+builder.AddCustomIdentityServer();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            var basketUrl = builder.Configuration.GetValue<string>("BasketUrl") ?? throw new ArgumentNullException("IdentityUrl invalid");
+            policy.WithOrigins(basketUrl);
+        });
+});
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
 
@@ -37,6 +46,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    _ = endpoints.MapControllers();
+    _ = endpoints.MapDefaultControllerRoute();
+    _ = endpoints.MapRazorPages();
+});
 
 app.Run();

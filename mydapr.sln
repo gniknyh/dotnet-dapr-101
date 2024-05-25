@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprBuildingBlock", "src\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mydapr.Identity", "src\mydapr.Identity\mydapr.Identity.csproj", "{8F3135CC-646A-45D7-9EE6-67E412930A23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mydapr.WebClient", "src\mydapr.WebClient\mydapr.WebClient.csproj", "{9FBE0102-9926-4731-85E4-C3DAACDC6105}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{8F3135CC-646A-45D7-9EE6-67E412930A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F3135CC-646A-45D7-9EE6-67E412930A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F3135CC-646A-45D7-9EE6-67E412930A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBE0102-9926-4731-85E4-C3DAACDC6105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBE0102-9926-4731-85E4-C3DAACDC6105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBE0102-9926-4731-85E4-C3DAACDC6105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBE0102-9926-4731-85E4-C3DAACDC6105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +80,6 @@ Global
 		{E4C26F88-DDA3-469E-86B6-4E1015B189A7} = {00B88A6F-A325-4D99-967A-9DF7667BF30A}
 		{FB6EFD27-60B7-44F7-A48A-FD74F49C87DF} = {00B88A6F-A325-4D99-967A-9DF7667BF30A}
 		{8F3135CC-646A-45D7-9EE6-67E412930A23} = {00B88A6F-A325-4D99-967A-9DF7667BF30A}
+		{9FBE0102-9926-4731-85E4-C3DAACDC6105} = {00B88A6F-A325-4D99-967A-9DF7667BF30A}
 	EndGlobalSection
 EndGlobal
