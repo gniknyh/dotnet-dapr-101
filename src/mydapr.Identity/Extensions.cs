@@ -53,9 +53,8 @@ namespace Link.Mydapr.Service.Identity
                 options.SetAuthorizationEndpointUris("connect/authorize")
                        .SetLogoutEndpointUris("connect/logout")
                        .SetTokenEndpointUris("connect/token")
-                        .SetIntrospectionEndpointUris("connect/introspect")
+                        .SetIntrospectionEndpointUris("connect/introspect");
 
-                       .SetUserinfoEndpointUris("connect/userinfo");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
@@ -70,7 +69,6 @@ namespace Link.Mydapr.Service.Identity
                 Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
 
 
-                options.DisableAccessTokenEncryption();
                 // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate();
                 options.AddDevelopmentSigningCertificate();
