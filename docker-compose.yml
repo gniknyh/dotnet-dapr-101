@@ -62,7 +62,17 @@ services:
     depends_on:
       - orderservice
 
+  webserver:
+    image: mydaprwebserver
+    build:
+      context: .
+      dockerfile: src/mydapr.WebServer/Dockerfile
 
+  webserver-dapr:
+    image: "daprio/daprd:1.9.4"
+    network_mode: "service:webserver"
+    depends_on:
+      - webserver
 
 volumes:
   database:

@@ -1,9 +1,12 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
 ENV ASPNETCORE_URLS=http://+:80
+
+COPY ["cert/link_mkdcert_rootCA.crt", "/usr/local/share/ca-certificates/link_mkdcert_rootCA.crt"]
+RUN chmod 644 /usr/local/share/ca-certificates/link_mkdcert_rootCA.crt && update-ca-certificates
+
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
