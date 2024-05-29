@@ -26,7 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 }
 );
+DaprClient.CreateInvokeHttpClient("basketservice");
 
+builder.Services.AddHttpContextAccessor();
 // builder.Services.AddAntiforgery(options =>
 //         {
 //             options.HeaderName = "X-XSRF-TOKEN";
@@ -101,7 +103,7 @@ builder.Services.AddOpenIddict()
 
                     ClientId = "blazor-client",
                     // ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB341",
-                    Scopes = { Scopes.Email, Scopes.Profile },
+                    Scopes = { Scopes.Email, Scopes.Profile, "api1" },
 
                     // Note: to mitigate mix-up attacks, it's recommended to use a unique redirection endpoint
                     // URI per provider, unless all the registered providers support returning a special "iss"

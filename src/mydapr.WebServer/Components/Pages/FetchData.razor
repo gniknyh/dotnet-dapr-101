@@ -1,0 +1,64 @@
+@page "/fetchdata"
+@using Dapr.Client
+@using Link.Mydapr.Service.Basket.Model
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Authentication;
+
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using OpenIddict.Client.AspNetCore
+@using System.Net.Http.Headers
+@attribute [Authorize]
+@* @inject HttpClient _http *@
+@inject IHttpContextAccessor HttpContextAccessor;
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (basket == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in basket.Items)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private CustomerBasket? basket;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await HttpContextAccessor.HttpContext.GetTokenAsync(OpenIddictClientAspNetCoreConstants.Tokens.BackchannelAccessToken);
+
+        var httpClient = DaprClient.CreateInvokeHttpClient("basketservice");
+        httpClient.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", token);
+
+        try
+        {
+            basket = await httpClient.GetFromJsonAsync<CustomerBasket>("api/v1/Basket/?customerId=1");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}
