@@ -31,22 +31,29 @@ public class Worker : IHostedService
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
             var identityUrl = _configuration.GetValue<string>("IdentityUrl") ?? throw new ArgumentNullException("IdentityUrl invalid");
+            var webServerUrl = _configuration.GetValue<string>("WebServerUrl") ?? throw new ArgumentNullException("WebServerUrl invalid");
             var blazor_client = await manager.FindByClientIdAsync("blazor-client");
             if (blazor_client != null)
             {
                 await manager.DeleteAsync(blazor_client);
             }
+            // var basket_client = await manager.FindByClientIdAsync("basket");
+            // if (basket_client != null)
+            // {
+            //     await manager.DeleteAsync(basket_client);
+            // }
 
             if (await manager.FindByClientIdAsync("blazor-client") is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
                     ClientId = "blazor-client",
-                    ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB341",
+                    ClientType = ClientTypes.Public,
+                    ConsentType = ConsentTypes.Explicit,
                     DisplayName = "Blazor client application",
                     RedirectUris =
                     {
-                        new Uri("http://identity/callback/login/local")
+                        new Uri(webServerUrl)
                     },
                     Permissions =
                     {
@@ -61,7 +68,6 @@ public class Worker : IHostedService
                         Permissions.Scopes.Profile,
                         Permissions.Scopes.Roles,
                         Permissions.Prefixes.Scope + "api1",
-                        Permissions.Prefixes.Scope + "api2",
                     }
                 });
             }
@@ -72,7 +78,7 @@ public class Worker : IHostedService
                 {
                     ClientId = "basket",
                     ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
-                    ClientType = ClientTypes.Confidential,
+                    ConsentType = ConsentTypes.Explicit,
                     Permissions =
                     {
                         Permissions.Endpoints.Introspection
@@ -86,6 +92,11 @@ public class Worker : IHostedService
         {
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
+            // var api1 = await manager.FindByNameAsync("api1");
+            // if (api1 is not null)
+            // {
+            //     await manager.DeleteAsync(api1);
+            // }
             if (await manager.FindByNameAsync("api1") is null)
             {
                 await manager.CreateAsync(new OpenIddictScopeDescriptor
@@ -94,18 +105,6 @@ public class Worker : IHostedService
                     Resources =
                     {
                         "basket"
-                    }
-                });
-            }
-
-            if (await manager.FindByNameAsync("api2") is null)
-            {
-                await manager.CreateAsync(new OpenIddictScopeDescriptor
-                {
-                    Name = "api2",
-                    Resources =
-                    {
-                        "resource_server_2"
                     }
                 });
             }

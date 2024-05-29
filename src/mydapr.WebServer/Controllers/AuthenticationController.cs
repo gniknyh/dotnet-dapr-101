@@ -163,7 +163,6 @@ public class AuthenticationController : Controller
         // authentication options shouldn't be used, a specific scheme can be specified here.
         return SignIn(new ClaimsPrincipal(identity), properties);
     }
-
     // Note: this controller uses the same callback action for all providers
     // but for users who prefer using a different action per provider,
     // the following action can be split into separate actions.

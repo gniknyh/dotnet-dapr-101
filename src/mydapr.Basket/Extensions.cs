@@ -17,7 +17,7 @@ namespace Link.Mydapr.Service.Basket
             // builder.Services.AddAuthentication("Bearer")
             //     .AddJwtBearer(options =>
             //     {
-            //         options.Audience = "basket-api";
+            //         options.Audience = "basket";
             //         options.Authority = builder.Configuration.GetValue<string>("IdentityUrl");
             //         options.RequireHttpsMetadata = false;
             //     });
@@ -35,11 +35,11 @@ namespace Link.Mydapr.Service.Basket
 
                     // Console.WriteLine($"identityUrlExternal: {identityUrlExternal}");
                     options.SetIssuer(identityUrl);
-                    // options.AddAudiences("basket");
+                    options.AddAudiences("basket");
 
-                    options.UseIntrospection()
-                        .SetClientId("basket")
-                        .SetClientSecret("846B62D0-DEF9-4215-A99D-86E6B8DAB342");
+                    // options.UseIntrospection()
+                    //     .SetClientId("basket")
+                    //     .SetClientSecret("846B62D0-DEF9-4215-A99D-86E6B8DAB342");
 
                     // Register the encryption credentials. This sample uses a symmetric
                     // encryption key that is shared between the server and the Api2 sample
@@ -47,8 +47,8 @@ namespace Link.Mydapr.Service.Basket
                     //
                     // Note: in a real world application, this encryption key should be
                     // stored in a safe place (e.g in Azure KeyVault, stored as a secret).
-                    // options.AddEncryptionKey(new SymmetricSecurityKey(
-                    //     Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
+                    options.AddEncryptionKey(new SymmetricSecurityKey(
+                        Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
 
                     // Register the System.Net.Http integration.
                     options.UseSystemNetHttp();

@@ -1,6 +1,9 @@
-using Link.Mydapr.WebClient;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
+using Link.Mydapr.WebServer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using mydapr.WebClient.Components;
+using mydapr.WebServer.Components;
 using OpenIddict.Client;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -10,13 +13,40 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// builder.Configuration.AddDaprSecretStore(
+//             "eshopondapr-secretstore",
+//             new DaprClientBuilder().Build());
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseOpenIddict();
+    // var connectStr = builder.Configuration.GetConnectionString("IdentityDataContextConnection");
+    // options.UseNpgsql(connectStr);  
     options.UseInMemoryDatabase("webclient_db");
 
 }
 );
+
+// builder.Services.AddAntiforgery(options =>
+//         {
+//             options.HeaderName = "X-XSRF-TOKEN";
+//             options.Cookie.Name = "__Host-X-XSRF-TOKEN";
+//             options.Cookie.SameSite = SameSiteMode.Strict;
+//             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+//         });
+
+builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        })
+
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/login";
+            options.LogoutPath = "/logout";
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
+            options.SlidingExpiration = false;
+        });
 
 builder.Services.AddOpenIddict()
 
@@ -52,6 +82,7 @@ builder.Services.AddOpenIddict()
                 // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options.UseAspNetCore()
                         .DisableTransportSecurityRequirement()
+                        // .Configure(options => options.CookieBuilder.SameSite = SameSiteMode.Lax)
                        .EnableStatusCodePagesIntegration()
                        .EnableRedirectionEndpointPassthrough()
                        .EnablePostLogoutRedirectionEndpointPassthrough();
@@ -62,20 +93,23 @@ builder.Services.AddOpenIddict()
                 options.UseSystemNetHttp();
 
                 // Add a client registration matching the client application definition in the server project.
+                var identityUrl = builder.Configuration.GetValue<string>("IdentityUrl") ?? throw new ArgumentNullException("IdentityUrl invalid");
                 options.AddRegistration(new OpenIddictClientRegistration
                 {
-                    Issuer = new Uri("http://localhost:7004/", UriKind.Absolute),
+                    // var identityUrl = _configuration.GetValue<string>("IdentityUrl") ?? throw new ArgumentNullException("IdentityUrl invalid");
+                    Issuer = new Uri(identityUrl, UriKind.Absolute),
 
                     ClientId = "blazor-client",
-                    ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB341",
+                    // ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB341",
                     Scopes = { Scopes.Email, Scopes.Profile },
 
                     // Note: to mitigate mix-up attacks, it's recommended to use a unique redirection endpoint
                     // URI per provider, unless all the registered providers support returning a special "iss"
                     // parameter containing their URL as part of authorization responses. For more information,
                     // see https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#section-4.4.
-                    RedirectUri = new Uri("http://localhost:7004/callback/login/local", UriKind.Absolute),
-                    // RedirectUri = new Uri("callback/login/local", UriKind.Relative),
+                    // RedirectUri = new Uri("http://identity/callback/login/local", UriKind.Absolute),
+                    // RedirectUri = new Uri("https://openidconnect.net/callback", UriKind.Absolute),
+                    RedirectUri = new Uri("callback/login/local", UriKind.Relative),
                     // PostLogoutRedirectUri = new Uri("callback/logout/local", UriKind.Relative)
                 });
             });

@@ -1,6 +1,7 @@
 using Balosar.Server;
 using Link.Mydapr.Service.Identity;
 using Link.Mydapr.Service.Identity.Areas.Identity.Data;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             var basketUrl = builder.Configuration.GetValue<string>("BasketUrl") ?? throw new ArgumentNullException("IdentityUrl invalid");
-            policy.WithOrigins(basketUrl);
+            policy.WithOrigins(basketUrl, "http://localhost:5000");
         });
 });
 
@@ -38,11 +39,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 

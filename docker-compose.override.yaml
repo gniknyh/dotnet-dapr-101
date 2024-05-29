@@ -24,12 +24,19 @@ services:
 
   identity:
     environment:
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      # - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=https://+:443;http://+:80
       - IdentityUrl=http://identity
       - BasketUrl=http://basketservice
+      - WebServerUrl=https://webserver:9000/callback/login/local
+      # - WebServerUrl=https://openidconnect.net/callback
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=changeit
     ports:
       - 7004:80
-    domainname: identity.test
+      - 443
+    volumes:
+      - ./cert/identity.pfx:/https/identity.pfx:ro
 
 
   identity-dapr:
@@ -47,7 +54,7 @@ services:
   basketservice:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - IdentityUrl=http://identity
+      - IdentityUrl=https://identity
     ports:
       - 7002:80
     depends_on:

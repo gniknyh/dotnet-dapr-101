@@ -6,13 +6,15 @@
     <AuthorizeView>
         <Authorized>
             <a href="authentication/profile">Hello, @context.User.Identity.Name!</a>
-            <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+            @* <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button> *@
+            <a href="logout">Logout</a>
+            
         </Authorized>
         <NotAuthorized>
-            @* <a href="authentication/register">Register</a>
-            <a href="authentication/login">Log in</a> *@
-            <a class="btn btn-lg btn-success" asp-controller="Authentication"
-            asp-action="Login">Login</a>
+            @* <a href="register">Register</a> *@
+            <a href="login">Log in</a>
+            @* <a class="btn btn-lg btn-success" asp-controller="Authentication"
+            asp-action="Login">Login</a> *@
         </NotAuthorized>
     </AuthorizeView>
 </CascadingAuthenticationState>
@@ -20,6 +22,6 @@
 @code{
     private void BeginSignOut(MouseEventArgs args)
     {
-        Navigation.NavigateToLogout("authentication/logout");
+        Navigation.NavigateToLogout("logout");
     }
 }

@@ -1,4 +1,4 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.0.0
 MinimumVisualStudioVersion = 17.8.0.0
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprBuildingBlock", "src\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mydapr.Identity", "src\mydapr.Identity\mydapr.Identity.csproj", "{8F3135CC-646A-45D7-9EE6-67E412930A23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mydapr.WebClient", "src\mydapr.WebClient\mydapr.WebClient.csproj", "{9FBE0102-9926-4731-85E4-C3DAACDC6105}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mydapr.WebServer", "src\mydapr.WebServer\mydapr.WebServer.csproj", "{9FBE0102-9926-4731-85E4-C3DAACDC6105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
